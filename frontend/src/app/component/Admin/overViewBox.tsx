@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { AiOutlineDollarCircle } from "react-icons/ai";
 import { HiOutlineShoppingCart } from "react-icons/hi";
 import { FaUserCheck } from "react-icons/fa";
+import Image from "next/image";
 
 const OverViewBox = () => {
   const [activeIndex, setActiveIndex] = useState<number>(0); 
@@ -33,7 +34,7 @@ const OverViewBox = () => {
   ];
 
   return (
-    <div className='w-[650px] h-[800px] bg-white m-[35px] rounded-xl '>
+   <div className="w-full max-w-[650px] min-h-[600px] bg-white m-4 sm:m-6 md:m-8 rounded-xl">
       <div className='mt-[20px] ml-[20px] flex items-baseline justify-between'>
         <p className='text-[#171717] text-[23px] font-bold'>Overview</p>
         <select className="border border-gray-300 bg-[#f5f5f5] rounded-xl px-3 py-2 mr-[30px]">
@@ -61,6 +62,14 @@ const OverViewBox = () => {
         ))}
          <div></div>
       </div>
+       <div className="flex shrink-0 items-center p-4">
+                              <Image
+                                  src="/image/chart.png"
+                                  alt="Your Company"
+                                  width={600}
+                                  height={50}
+                              />
+                          </div>
     </div>
   );
 };

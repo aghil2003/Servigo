@@ -9,7 +9,7 @@ const Navbar = () => {
 
     return (
         <nav className="h-[80px]">
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 relative flex h-[80px] items-center justify-between shadow-md">
+          <div className="mx-auto w-full px-2 sm:px-6 lg:px-8 relative flex h-[80px] items-center justify-between shadow-md">
                 <div className="flex flex-1 items-center justify-start sm:items-stretch sm:justify-start">
                     <div className="flex shrink-0 items-center">
                         <Image
@@ -22,7 +22,7 @@ const Navbar = () => {
                     </div>
                 </div>
 
-                <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+                <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0 mr-[100px]">
                     {/* Notifications icon */}
                     <button
                         type="button"
