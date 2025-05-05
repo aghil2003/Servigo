@@ -43,8 +43,8 @@ export function Navbar() {
             <Image
               src="/image/logo.png"
               alt="Your Company"
-              width={40}
-              height={40}
+              width={45}
+              height={45}
             />
             <span className="text-lg font-semibold">Servigo Admin</span>
           </Link>
