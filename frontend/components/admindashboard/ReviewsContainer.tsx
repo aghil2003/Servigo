@@ -1,7 +1,7 @@
 "use client";
 import { useState,useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/admindashboard/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/admindashboard/ui/avatar";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PieChart, Pie, ResponsiveContainer, Cell, Legend, Tooltip } from "recharts";
 import { StarIcon } from "lucide-react";
 import AxiosInstance from "@/axios/axiosInstance";
