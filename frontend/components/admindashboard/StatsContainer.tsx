@@ -1,8 +1,8 @@
 "use client";
 
 import { useState,useEffect } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/admindashboard/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/admindashboard/ui/tabs";
 import { BarChart, LineChart, Line, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import AxiosInstance from "@/axios/axiosInstance";
 import { DollarSign, Users, Briefcase } from "lucide-react";

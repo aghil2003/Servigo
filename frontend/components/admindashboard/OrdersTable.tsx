@@ -365,14 +365,14 @@ import {
   ColumnDef,
 } from "@tanstack/react-table";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/admindashboard/ui/card";
+import { Button } from "@/components/admindashboard/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/admindashboard/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -380,8 +380,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+} from "@/components/admindashboard/ui/table";
+import { Badge } from "@/components/admindashboard/ui/badge";
 import AxiosInstance from "@/axios/axiosInstance";
 
 // Define the order type

@@ -4,16 +4,16 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Bell, Menu, Moon, Sun, UserCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Sidebar } from "@/components/layout/Sidebar";
+import { Button } from "@/components/admindashboard/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/admindashboard/ui/sheet";
+import { Sidebar } from "@/components/admindashboard/layout/Sidebar";
 import { useTheme } from "next-themes";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from "@/components/admindashboard/ui/dropdown-menu";
 
 export function Navbar() {
   const { theme, setTheme } = useTheme();

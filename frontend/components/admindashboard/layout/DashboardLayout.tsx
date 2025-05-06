@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-import { Navbar } from "@/components/layout/Navbar";
-import { Sidebar } from "@/components/layout/Sidebar";
+import { Navbar } from "@/components/admindashboard/layout/Navbar";
+import { Sidebar } from "@/components/admindashboard/layout/Sidebar";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;

@@ -15,8 +15,8 @@ import {
   Users,
   Wrench,
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Button } from "@/components/admindashboard/ui/button";
+import { ScrollArea } from "@/components/admindashboard/ui/scroll-area";
 
 interface SidebarProps {
   className?: string;
