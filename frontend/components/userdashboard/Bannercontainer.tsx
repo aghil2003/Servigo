@@ -224,7 +224,7 @@ export function Bannercontainer() {
 
         <motion.div
           style={{ x: x3, y: y3, scale: scale3, rotate: rotate3 }}
-          className="absolute top-[290px] right-[100px] border-8 border-white rounded shadow-2xl z-10"
+          className="absolute top-[250px] right-[100px] border-8 border-white rounded shadow-2xl z-10"
           transition={{ type: "spring", stiffness: 60 }}
         >
           <Image src="/image/banner3.jpg" alt="Banner 3" width={300} height={300} />
