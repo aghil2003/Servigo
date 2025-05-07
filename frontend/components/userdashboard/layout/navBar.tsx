@@ -7,6 +7,7 @@ import { Bell, Menu, Moon, Sun, UserCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Sidebar } from "@/components/admindashboard/layout/Sidebar";
+import "@fontsource/montserrat/800.css"; 
 import { useTheme } from "next-themes";
 import {
   DropdownMenu,
@@ -20,7 +21,7 @@ export function Navbar() {
   const [showNotifications, setShowNotifications] = useState(false);
 
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full items-center border-b bg-background px-4 md:px-6">
+    <header className="sticky top-0 z-30 flex h-16 w-full items-center  bg-background px-4 md:px-6">
       <div className="flex w-full items-center justify-between">
         <div className="flex items-center gap-2">
           <Sheet>
@@ -46,7 +47,7 @@ export function Navbar() {
               width={45}
               height={45}
             />
-            <span className="text-lg font-semibold">Servigo</span>
+            <span className=" font-[Montserrat] text-[40px]">Servigo</span>
           </Link>
         </div>
 

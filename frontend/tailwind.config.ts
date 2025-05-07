@@ -9,6 +9,11 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        poppins: ['Poppins', 'sans-serif'],
+        bebas: ['Bebas Neue', 'cursive'],
+        opensans: ['Open Sans', 'sans-serif'],
+      },
       colors: {
         zircon: '#fdfeff',
         linkwater: '#deeaf9',
