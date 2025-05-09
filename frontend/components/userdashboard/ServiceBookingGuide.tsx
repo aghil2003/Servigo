@@ -2,16 +2,19 @@ import { Search,CalendarDays,Coffee } from "lucide-react";
 
 export function ServiceBookingGuideContainer() {
     return (
-      <div className="bg-[#8fa3ff] h-[475px] w-full rounded-t-[50px]">
+      <div className=" h-[475px] w-full rounded-t-[50px]"
+      style={{
+        backgroundImage: "linear-gradient(to bottom,  #c3daf4, #b4c3f0)",
+      }}>
         <div className="relative top-[30px] items-center text-center">
-          <h1 className="text-[#101585] text-[40px] font-bold">How It Works</h1>
-          <p className="text-[#101585] text-[20px]">Get your home service done in three simple steps</p>
+          <h1 className="text-black text-[40px] font-bold">How It Works</h1>
+          <p className="text-black text-[20px]">Get your home service done in three simple steps</p>
         </div>
-        <div className="bg-[#101585] w-[200px] h-[3px] rounded relative top-[70px] left-[475px]"></div>
+        <div className="bg-black w-[200px] h-[3px] rounded relative top-[70px] left-[530px]"></div>
         <div className="mt-[60px]">
-            <div className="bg-[#101585] rounded-full w-[25px] h-[25px] relative top-[60px] left-[52px] text-white flex justify-center"><span>1</span></div>
-            <div className="bg-[#101585] rounded-full w-[25px] h-[25px] relative top-[35px] left-[412px] text-white flex justify-center"><span>2</span></div>
-            <div className="bg-[#101585] rounded-full w-[25px] h-[25px] relative top-[10px] left-[772px] text-white flex justify-center"><span>3</span></div>
+            <div className="bg-[#101585] rounded-full w-[25px] h-[25px] relative top-[60px] left-[110px] text-white flex justify-center"><span>1</span></div>
+            <div className="bg-[#101585] rounded-full w-[25px] h-[25px] relative top-[35px] left-[472px] text-white flex justify-center"><span>2</span></div>
+            <div className="bg-[#101585] rounded-full w-[25px] h-[25px] relative top-[10px] left-[832px] text-white flex justify-center"><span>3</span></div>
             <div className=" items-center flex justify-center gap-[60px] ml--[180px] ">
             <div className="bg-white w-[300px] h-[200px] rounded-lg flex flex-col justify-center items-center gap-3">
               <div className="bg-[#F0F0F0] w-[60px] h-[60px] rounded-full flex justify-center items-center">

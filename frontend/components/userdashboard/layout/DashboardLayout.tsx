@@ -11,7 +11,7 @@ interface DashboardLayoutProps {
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [mounted, setMounted] = useState(false);
   
-  // Make sure the component is mounted before rendering to avoid hydration issues
+
   useEffect(() => {
     setMounted(true);
   }, []);
