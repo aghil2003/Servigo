@@ -1,15 +1,24 @@
 
 import Image from "next/image";
+import CarpentryImg from "@/public/image/carpenter.jpg";
+import ElectricalImg from "@/public/image/wire.jpg";
+import CleaningImg from "@/public/image/cleaning.jpg";
+import PaintingImg from "@/public/image/painting.jpg";
+import PlumbingImg from "@/public/image/plumbing.jpg";
+import ACRepairImg from "@/public/image/ac-repair.jpg";
+import GardeningImg from "@/public/image/gardening.jpg";
+import ConstractionImg from "@/public/image/constraction.jpg";
+
 
 const serviceImages = [
-  { src: "/image/carpenter.jpg", name: "Carpentry" },
-  { src: "/image/wire.jpg", name: "Electrical" },
-  { src: "/image/cleaning.jpg", name: "Cleaning" },
-  { src: "/image/painting.jpg", name: "Painting" },
-  { src: "/image/plumbing.jpg", name: "Plumbing" },
-  { src: "/image/ac-repair.jpg", name: "AC Repair" },
-  { src: "/image/gardening.jpg", name: "Gardening" },
-  { src: "/image/constraction.jpg", name: "Constraction" },
+  { src: CarpentryImg, name: "Carpentry" },
+  { src: ElectricalImg, name: "Electrical" },
+  { src: CleaningImg, name: "Cleaning" },
+  { src: PaintingImg, name: "Painting" },
+  { src: PlumbingImg, name: "Plumbing" },
+  { src: ACRepairImg, name: "AC Repair" },
+  { src: GardeningImg, name: "Gardening" },
+  { src: ConstractionImg, name: "Constraction" },
 ];
 
 export function ServiceContainer() {
@@ -46,16 +55,30 @@ export function ServiceContainer() {
     className="bg-white w-[250px] h-[300px] rounded-lg shadow-md overflow-hidden"
   >
     <div className="w-full h-[200px] relative">
-      <Image
+      {/* <Image
         src={src} 
         alt={name}
         width={250}
         height={200}
         className="object-cover w-full h-[200px]"
         priority={index < 4} 
-      />
+      /> */}
+      <Image
+       src={src}
+       alt={name}
+       width={250}
+       height={200}
+       className="object-cover w-full h-[200px]"
+       priority={index < 4}
+       placeholder="blur"
+       blurDataURL="/placeholder.png" 
+       />
+
     </div>
     <div className="p-2 text-center font-semibold">{name}</div>
+    <div className="font-poppins ml-[50px] px-3 font-semibold w-[150px] py-2 bg-blue-600 text-white text-lg rounded-md hover:bg-blue-700 hover:scale-105 transition duration-300">
+      <button>Book now</button>
+    </div>
   </div>
 ))}
 

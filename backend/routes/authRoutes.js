@@ -1,20 +1,32 @@
-// import express from "express";
-// const authRoute=express.Router();
-// import User from "../models/user"
+import express from "express";
+const authRoute=express.Router();
+import {register} from "../controllers/authController.js"
+import { verify } from "../controllers/authController.js";
+import { Login } from "../controllers/authController.js";
+import passport from "passport";
+
+authRoute.post("/user",register );
+authRoute.post("/verify-otp",verify)
+authRoute.post("/login",Login );
+
+authRoute.get("/auth/google", passport.authenticate("google", { scope: ["profile","name", "email"] }));
+
+// @route GET /auth/google/callback
+authRoute.get(
+  "/auth/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
+  (req, res) => {
+    // Redirect to frontend or dashboard after successful login
+    res.redirect("http://localhost:3000/userdashboard");
+  }
+);
+
+// @route GET /auth/logout
+authRoute.get("/logout", (req, res) => {
+  req.logout(() => {
+    res.redirect("/");
+  });
+});
 
 
-// authRoute.post("/user",async(req,res)=>{
-//     try {
-//         const {username,email}=req.body;
-//         const newUser = new User({ username, email });
-//         await newUser.save();
-//         res.status(201).json({ message: 'User created', user: newUser });
-//         console.log("data saved")
-        
-//     } catch (error) {
-//         res.status(500).json({ error: err.message });
-//     }
-   
-// })
-
-// export default authRoute;
+export default authRoute;
