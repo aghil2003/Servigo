@@ -2,7 +2,8 @@
 // const User = require("../models/User");
 import { Strategy as GoogleStrategy } from "passport-google-oauth20";
 import googleUser from "../model/user.js"; // Add `.js` for ESM compatibility
-
+import dotenv from 'dotenv';
+dotenv.config(); 
 
 export default function configurePassport (passport){
   passport.use(
