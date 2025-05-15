@@ -9,7 +9,7 @@ authRoute.post("/user",register );
 authRoute.post("/verify-otp",verify)
 authRoute.post("/login",Login );
 
-authRoute.get("/auth/google", passport.authenticate("google", { scope: ["profile","name", "email"] }));
+authRoute.get("/auth/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
 // @route GET /auth/google/callback
 authRoute.get(
