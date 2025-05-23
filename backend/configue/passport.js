@@ -19,6 +19,7 @@ export default function configurePassport (passport){
         if (existingUser) return done(null, existingUser);
 
         const newUser = await googleUser.create({
+          googleId: profile.id ,  
           username: profile.displayName,
           email: profile.emails[0].value,
           photo: profile.photos[0].value,
@@ -30,7 +31,11 @@ export default function configurePassport (passport){
 
   passport.serializeUser((user, done) => done(null, user.id));
   passport.deserializeUser(async (id, done) => {
-    const user = await User.findById(id);
-    done(null, user);
+    try {
+      const user = await googleUser.findById(id);
+      done(null, user);
+    } catch (err) {
+      done(err, null);
+    }
   });
-};
+}

@@ -80,7 +80,7 @@ export function Login() {
           </div>
 
           <div className='flex my-4 justify-center items-center'>
-            <Button
+            {/* <Button
               type="button"
               variant="outline"
               size="lg"
@@ -88,7 +88,17 @@ export function Login() {
             >
               <span className="text-base">Continue with Google</span>
               <FcGoogle className='size-6' />
-            </Button>
+            </Button> */}
+            <Button
+  type="button"
+  variant="outline"
+  size="lg"
+  className='bg-slate-300 hover:bg-slate-400 hover:scale-110 transition w-[300px] flex gap-2 items-center justify-center'
+  onClick={() => window.location.href = "http://localhost:5000/auth/google"}
+>
+  <span className="text-base">Continue with Google</span>
+  <FcGoogle className='size-6' />
+</Button>
           </div>
 
           <p className='text-center text-sm mt-2 text-muted-foreground'>

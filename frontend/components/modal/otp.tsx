@@ -20,7 +20,7 @@ export default function OTPModal({ isOpen, onClose, onVerify, loading = false }:
     newOtp[index] = value;
     setOtp(newOtp);
 
-    if (value && index < 5) {
+    if (value && index < 5) { 
       inputsRef.current[index + 1]?.focus();
     }
   };

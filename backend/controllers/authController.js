@@ -12,7 +12,7 @@ const transporter =nodemailer.createTransport(
         service: 'gmail',
         auth:{
             user:process.env.EMAIL,
-            pass:process.env.PASS
+            pass:process.env.PASS 
         }
     }
 )
@@ -53,7 +53,7 @@ export const register=async (req, res) => {
     const otp = crypto.randomInt(100000, 999999).toString();
     console.log("Generated OTP:", otp);
 
-    // await Otp.deleteOne({ userId: newUser._id });
+    await Otp.deleteOne({ userId: newUser._id });
 
     const userotp=new Otp({
       userId: newUser._id,

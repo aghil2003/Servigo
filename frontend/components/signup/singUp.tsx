@@ -65,7 +65,6 @@ const handleGoogleLogin = () => {
 
 
   const handleVerifyOtp = async (e: React.FormEvent,otp: string) => {
-    e.preventDefault();
     try {
       setLoading(true);
        const email ="aghilpuduruthy680623@gmail.com"
