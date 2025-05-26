@@ -114,9 +114,13 @@ const serviceImages = [
 export function ServiceContainer() {
  const router = useRouter();
 
-  const handleBookNow = () => {
-    router.push("/workerSelector"); // Client-side navigation on click
-  };
+ const handleBookNow = (name: string) => {
+  const formattedName = name.toLowerCase().replace(/\s+/g, "-");
+  router.push(`/workerSelector?service=${encodeURIComponent(formattedName)}`);
+};
+
+
+
 
   return (
     <div className="w-full bg-[#024051] py-12 px-6 sm:px-10 lg:px-[70px] font-poppins">
@@ -164,7 +168,7 @@ export function ServiceContainer() {
             <div className="p-3 text-center font-semibold text-lg">{name}</div>
             <div className="mb-4">
               <button
-                onClick={handleBookNow}
+                 onClick={() => handleBookNow(name)}
                 className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 hover:scale-105 transition-transform duration-300"
               >
                 Book now

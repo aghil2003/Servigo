@@ -6,6 +6,7 @@ import RoutesAuth from "./routes/authRoutes.js"
 import RoutesData from "./routes/dataRoutes.js"
 import RoutesOrder from "./routes/orderRoutes.js";
 import RoutesReview from "./routes/reviewRoutes.js";
+import RoutesWorker from "./routes/workerRoutes.js";
 import connectToDatabas from "./configue/db.js"
 import passport from 'passport';
 import connectToPassport from "./configue/passport.js";
@@ -17,6 +18,7 @@ const port=process.env.PORT;
 connectToDatabas();
 connectToPassport(passport);
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -41,7 +43,7 @@ app.use("/",RoutesAuth)
 app.use("/",RoutesData)
 app.use("/",RoutesOrder)
 app.use("/",RoutesReview)
-
+app.use("/",RoutesWorker)
 
 
 app.listen(port,()=>{

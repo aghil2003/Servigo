@@ -108,16 +108,39 @@
 
 // export default WorkerSelectorPage;
 
+"use client";
 
-import React from "react";
+import { useSearchParams } from "next/navigation";
+import React, { useState, useEffect } from "react";
 import { GrUserWorker } from "react-icons/gr";
+import Axiosinstance from "@/axios/axiosInstance";
 
 const WorkerSelectorPage = () => {
+  const searchParams = useSearchParams();
+  const service = searchParams.get("service");
+  const [Employees, setEmployees] = useState<{ workers: any[] } | null>(null);
+
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        if (!service) return;
+
+        const response = await Axiosinstance.get(`/worker/${service}`);
+        setEmployees({ workers: response.data.workers });
+      } catch (error) {
+        console.error("Error fetching employees:", error);
+      }
+    };
+
+    fetchEmployees();
+  }, [service]);
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="bg-white shadow-md rounded-2xl p-4 sm:p-6 md:p-8 w-full max-w-6xl text-center">
         <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800 flex items-center justify-center gap-3 flex-wrap">
-          Worker Selector Page <GrUserWorker className="text-blue-500 text-3xl sm:text-4xl" />
+          Worker Selector Page{" "}
+          <GrUserWorker className="text-blue-500 text-3xl sm:text-4xl" />
         </h1>
         <p className="mt-2 sm:mt-3 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
           Choose the type of worker you're looking for from the list below.
@@ -131,8 +154,10 @@ const WorkerSelectorPage = () => {
               <div className="flex flex-col sm:flex-row items-center gap-4 mb-4">
                 <div className="bg-black w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-xl shrink-0" />
                 <div className="text-left text-gray-800">
-                  <h2 className="text-lg sm:text-xl font-semibold">Work Name</h2>
-                  <p className="text-sm text-gray-500">Work caption</p>
+                  <h2 className="text-lg sm:text-xl font-semibold">{service}</h2>
+                  <p className="text-sm text-gray-500">
+                    Choose a Professional for Your {service} Service
+                  </p>
                 </div>
               </div>
 
@@ -194,9 +219,7 @@ const WorkerSelectorPage = () => {
               </button>
 
               <div className="w-full sm:w-auto">
-                <select
-                  className="block w-full sm:w-[200px] px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
-                >
+                <select className="block w-full sm:w-[200px] px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
                   <option value="">Sort by Price</option>
                   <option value="lowToHigh">Low to High</option>
                   <option value="highToLow">High to Low</option>
@@ -204,9 +227,21 @@ const WorkerSelectorPage = () => {
               </div>
             </div>
 
-            {/* Worker List Placeholder */}
+            {/* Worker List */}
             <div className="mt-4 flex-1 overflow-y-auto">
-              <p className="text-sm text-gray-500">Worker list will appear here...</p>
+              {Employees && Employees.workers && Employees.workers.length > 0 ? (
+                Employees.workers.map((emp, idx) => (
+                  <div
+                    key={idx}
+                    className="border border-gray-200 p-4 rounded-lg shadow-sm bg-gray-50 hover:bg-white transition"
+                  >
+                    <div className="font-semibold text-lg text-gray-800">{emp.username}</div>
+                    <div className="text-gray-600 text-sm">Location: {emp.location}</div> 
+                  </div>
+                ))
+              ) : ( 
+                <div className="text-gray-500">No workers found.</div>
+              )}
             </div>
           </div>
         </div>
