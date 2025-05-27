@@ -108,94 +108,385 @@
 
 // export default WorkerSelectorPage;
 
+// "use client";
+
+// import { useSearchParams } from "next/navigation";
+// import React, { useState, useEffect } from "react";
+// import { GrUserWorker } from "react-icons/gr";
+// import Axiosinstance from "@/axios/axiosInstance";
+// import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+// import L from 'leaflet';
+// import 'leaflet/dist/leaflet.css';
+
+// // Fix for default marker icon not showing
+// delete L.Icon.Default.prototype._getIconUrl;
+// L.Icon.Default.mergeOptions({
+//   iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+//   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+//   shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+// });
+
+
+// const WorkerSelectorPage = () => {
+//   const searchParams = useSearchParams();
+//   const service = searchParams.get("service");
+//   const [Employees, setEmployees] = useState<{ workers: any[] } | null>(null);
+//   const [position, setPosition] = useState<[number, number]>([8.5241, 76.9366]); // Thiruvananthapuram example
+
+//   useEffect(() => {
+//     if (navigator.geolocation) {
+//       navigator.geolocation.getCurrentPosition((pos) => {
+//         setPosition([pos.coords.latitude, pos.coords.longitude]);
+//       });
+//     }
+//   }, []);
+
+//   useEffect(() => {
+//     const fetchEmployees = async () => {
+//       try {
+//         if (!service) return;
+
+//         const response = await Axiosinstance.get(`/worker/${service}`);
+//         setEmployees({ workers: response.data.workers });
+//       } catch (error) {
+//         console.error("Error fetching employees:", error);
+//       }
+//     };
+
+//     fetchEmployees();
+//   }, [service]);
+
+//   return (
+//     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+//       <div className="bg-white shadow-md rounded-2xl p-4 sm:p-6 md:p-8 w-full max-w-6xl text-center">
+//         <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800 flex items-center justify-center gap-3 flex-wrap">
+//           Worker Selector Page{" "}
+//           <GrUserWorker className="text-blue-500 text-3xl sm:text-4xl" />
+//         </h1>
+//         <p className="mt-2 sm:mt-3 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+//           Choose the type of worker you're looking for from the list below.
+//         </p>
+
+//         <div className="mt-6 md:mt-8 flex flex-col md:flex-row gap-6 bg-[#e6e9f3] rounded-xl p-4">
+//           {/* Left Panel */}
+//           <div className="w-full md:w-1/2 rounded-xl flex flex-col items-center justify-start text-white">
+//             <div className="bg-white w-full rounded-xl p-4 transition transform hover:scale-[1.02] hover:shadow-lg cursor-pointer">
+//               {/* Worker Info */}
+//               <div className="flex flex-col sm:flex-row items-center gap-4 mb-4">
+//                 <div className="bg-black w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-xl shrink-0" />
+//                 <div className="text-left text-gray-800">
+//                   <h2 className="text-lg sm:text-xl font-semibold">{service}</h2>
+//                   <p className="text-sm text-gray-500">
+//                     Choose a Professional for Your {service} Service
+//                   </p>
+//                 </div>
+//               </div>
+
+//               {/* Location Selector */}
+//               <div className="text-left text-gray-700 space-y-3 mt-4 sm:mt-6">
+//                 <h3 className="text-base sm:text-lg font-medium">Select Location</h3>
+
+//                 <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition w-full sm:w-auto">
+//                   Use Current Location
+//                 </button>
+
+//                 <input
+//                   type="text"
+//                   placeholder="Search location"
+//                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                 />
+//               </div>
+
+//               <div className="bg-slate-500 w-full h-[200px] sm:h-[250px] md:h-[300px] mt-4 sm:mt-5 rounded-xl flex items-center justify-center text-white text-sm">
+//                <MapContainer
+//       center={position}
+//       zoom={13}
+//       scrollWheelZoom={false}
+//       style={{ height: '300px', width: '100%', borderRadius: '0.75rem' }}
+//     >
+//       <TileLayer
+//         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+//         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+//       />
+//       <Marker position={position}>
+//         <Popup>You are here</Popup>
+//       </Marker>
+//     </MapContainer>
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* Right Panel */}
+//           <div className="w-full md:w-1/2 bg-white rounded-xl p-4 sm:p-6 flex flex-col gap-6 text-gray-700 max-h-[80vh] md:max-h-[600px] overflow-auto">
+//             <div>
+//               <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-2">
+//                 Available Workers
+//               </h2>
+//             </div>
+
+//             {/* Search Filters */}
+//             <div className="flex flex-col gap-4">
+//               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+//                 <input
+//                   type="date"
+//                   className="px-4 py-2 w-full sm:w-auto flex-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                 />
+//                 <button
+//                   type="button"
+//                   className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition w-full sm:w-auto"
+//                 >
+//                   Search
+//                 </button>
+//               </div>
+
+//               <input
+//                 type="text"
+//                 placeholder="Search by worker name"
+//                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//               />
+//             </div>
+
+//             {/* Sorting Controls */}
+//             <div className="flex flex-col sm:flex-row items-center gap-4 mt-2">
+//               <button className="px-4 py-2 bg-gray-200 rounded-lg text-sm hover:bg-gray-300 transition w-full sm:w-auto text-center">
+//                 Sort by Rating
+//               </button>
+
+//               <div className="w-full sm:w-auto">
+//                 <select className="block w-full sm:w-[200px] px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
+//                   <option value="">Sort by Price</option>
+//                   <option value="lowToHigh">Low to High</option>
+//                   <option value="highToLow">High to Low</option>
+//                 </select>
+//               </div>
+//             </div>
+
+//             {/* Worker List */}
+//             <div className="mt-4 flex-1 overflow-y-auto">
+//               {Employees && Employees.workers && Employees.workers.length > 0 ? (
+//                 Employees.workers.map((emp, idx) => (
+//                   <div
+//                     key={idx}
+//                     className="border border-gray-200 p-4 rounded-lg shadow-sm bg-gray-50 hover:bg-white transition"
+//                   >
+//                     <div className="font-semibold text-lg text-gray-800">{emp.username}</div>
+//                     <div className="text-gray-600 text-sm">Location: {emp.location}</div> 
+//                   </div>
+//                 ))
+//               ) : ( 
+//                 <div className="text-gray-500">No workers found.</div>
+//               )}
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default WorkerSelectorPage;
+
+
 "use client";
 
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import React, { useState, useEffect } from "react";
 import { GrUserWorker } from "react-icons/gr";
 import Axiosinstance from "@/axios/axiosInstance";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl:
+    "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
+  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
+  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
+});
+
+type Worker = {
+  username: string;
+  location: string;
+};
 
 const WorkerSelectorPage = () => {
   const searchParams = useSearchParams();
-  const service = searchParams.get("service");
-  const [Employees, setEmployees] = useState<{ workers: any[] } | null>(null);
+  const service = searchParams.get("service") || "";
 
+  // User's live location
+  const [userPosition, setUserPosition] = useState<[number, number]>([
+    8.5241, 76.9366,
+  ]); // Default Thiruvananthapuram
+
+  // Map center - changes on search or live location update
+  const [mapCenter, setMapCenter] = useState<[number, number]>(userPosition);
+
+  // Search input for location search
+  const [locationSearch, setLocationSearch] = useState("");
+
+  // Workers fetched
+  const [workers, setWorkers] = useState<Worker[]>([]);
+
+  // Loading and error states
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // Fetch workers based on service
   useEffect(() => {
-    const fetchEmployees = async () => {
-      try {
-        if (!service) return;
+    if (!service) return;
 
-        const response = await Axiosinstance.get(`/worker/${service}`);
-        setEmployees({ workers: response.data.workers });
-      } catch (error) {
-        console.error("Error fetching employees:", error);
-      }
-    };
-
-    fetchEmployees();
+    setLoading(true);
+    setError("");
+    Axiosinstance.get(`/worker/${service}`)
+      .then((res) => {
+        setWorkers(res.data.workers || []);
+      })
+      .catch(() => {
+        setError("Failed to fetch workers.");
+      })
+      .finally(() => setLoading(false));
   }, [service]);
+
+  // Get user's current location once on mount
+  useEffect(() => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          const coords: [number, number] = [
+            pos.coords.latitude,
+            pos.coords.longitude,
+          ];
+          setUserPosition(coords);
+          setMapCenter(coords);
+        },
+        () => {
+          // error or denied, keep default location
+        }
+      );
+    }
+  }, []);
+
+  // Search location handler: use Nominatim API to get lat/lon for typed place
+  const handleLocationSearch = async () => {
+    if (!locationSearch) return;
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(
+        locationSearch
+      )}`;
+
+      const response = await fetch(url, {
+        headers: {
+          // Nominatim requires a valid user-agent or referer
+          "User-Agent": "servigo-app-example (your-email@example.com)",
+        },
+      });
+
+      const data = await response.json();
+
+      if (data && data.length > 0) {
+        const lat = parseFloat(data[0].lat);
+        const lon = parseFloat(data[0].lon);
+        setMapCenter([lat, lon]);
+      } else {
+        alert("Location not found");
+      }
+    } catch (err) {
+      alert("Error searching location");
+    }
+  };
+
+  // Use current location button click
+  const handleUseCurrentLocation = () => {
+    setMapCenter(userPosition);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="bg-white shadow-md rounded-2xl p-4 sm:p-6 md:p-8 w-full max-w-6xl text-center">
         <h1 className="text-3xl sm:text-4xl font-semibold text-gray-800 flex items-center justify-center gap-3 flex-wrap">
-          Worker Selector Page{" "}
-          <GrUserWorker className="text-blue-500 text-3xl sm:text-4xl" />
+          Worker Selector Page <GrUserWorker className="text-blue-500" />
         </h1>
-        <p className="mt-2 sm:mt-3 text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+        <p className="mt-2 text-base text-gray-600">
           Choose the type of worker you're looking for from the list below.
         </p>
 
         <div className="mt-6 md:mt-8 flex flex-col md:flex-row gap-6 bg-[#e6e9f3] rounded-xl p-4">
-          {/* Left Panel */}
-          <div className="w-full md:w-1/2 rounded-xl flex flex-col items-center justify-start text-white">
-            <div className="bg-white w-full rounded-xl p-4 transition transform hover:scale-[1.02] hover:shadow-lg cursor-pointer">
-              {/* Worker Info */}
-              <div className="flex flex-col sm:flex-row items-center gap-4 mb-4">
-                <div className="bg-black w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-xl shrink-0" />
+          {/* Left Panel - Map and Location Search */}
+          <div className="w-full md:w-1/2 flex flex-col items-center">
+            <div className="bg-white w-full rounded-xl p-4 hover:shadow-lg transition">
+              <div className="flex items-center gap-4 mb-4">
+                <div className="bg-black w-[100px] h-[100px] sm:w-[120px] sm:h-[120px] rounded-xl" />
                 <div className="text-left text-gray-800">
-                  <h2 className="text-lg sm:text-xl font-semibold">{service}</h2>
+                  <h2 className="text-lg font-semibold">{service}</h2>
                   <p className="text-sm text-gray-500">
                     Choose a Professional for Your {service} Service
                   </p>
                 </div>
               </div>
 
-              {/* Location Selector */}
-              <div className="text-left text-gray-700 space-y-3 mt-4 sm:mt-6">
-                <h3 className="text-base sm:text-lg font-medium">Select Location</h3>
-
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition w-full sm:w-auto">
+              {/* Location Search/Current Location */}
+              <div className="text-left text-gray-700 space-y-3 mt-4">
+                <h3 className="text-base font-medium">Select Location</h3>
+                <button
+                  onClick={handleUseCurrentLocation}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition w-full sm:w-auto"
+                >
                   Use Current Location
                 </button>
+                <div className="flex gap-2 mt-2">
+                  <input
+                    type="text"
+                    placeholder="Search location"
+                    value={locationSearch}
+                    onChange={(e) => setLocationSearch(e.target.value)}
+                    className="flex-grow px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter") handleLocationSearch();
+                    }}
+                  />
+                  <button
+                    onClick={handleLocationSearch}
+                    className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
 
-                <input
-                  type="text"
-                  placeholder="Search location"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {/* Map */}
+              <MapContainer
+                center={mapCenter}
+                zoom={13}
+                scrollWheelZoom={false}
+                className="w-full h-[300px] mt-4 rounded-xl z-10"
+                key={mapCenter.toString()} // force re-render on center change
+              >
+                <TileLayer
+                  attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                  url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-              </div>
-
-              <div className="bg-slate-500 w-full h-[200px] sm:h-[250px] md:h-[300px] mt-4 sm:mt-5 rounded-xl flex items-center justify-center text-white text-sm">
-                Google Map
-              </div>
+                <Marker position={mapCenter}>
+                  <Popup>{`Selected Location`}</Popup>
+                </Marker>
+                <Marker position={userPosition}>
+                  <Popup>Your Current Location</Popup>
+                </Marker>
+              </MapContainer>
             </div>
           </div>
 
-          {/* Right Panel */}
+          {/* Right Panel - Worker List */}
           <div className="w-full md:w-1/2 bg-white rounded-xl p-4 sm:p-6 flex flex-col gap-6 text-gray-700 max-h-[80vh] md:max-h-[600px] overflow-auto">
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-semibold text-gray-800 mb-2">
-                Available Workers
-              </h2>
-            </div>
+            <h2 className="text-2xl font-semibold text-gray-800">
+              Available Workers
+            </h2>
 
             {/* Search Filters */}
             <div className="flex flex-col gap-4">
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <input
                   type="date"
-                  className="px-4 py-2 w-full sm:w-auto flex-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto"
                 />
                 <button
                   type="button"
@@ -212,35 +503,40 @@ const WorkerSelectorPage = () => {
               />
             </div>
 
-            {/* Sorting Controls */}
-            <div className="flex flex-col sm:flex-row items-center gap-4 mt-2">
-              <button className="px-4 py-2 bg-gray-200 rounded-lg text-sm hover:bg-gray-300 transition w-full sm:w-auto text-center">
+            {/* Sorting */}
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <button className="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition w-full sm:w-auto">
                 Sort by Rating
               </button>
-
-              <div className="w-full sm:w-auto">
-                <select className="block w-full sm:w-[200px] px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 shadow-sm hover:border-blue-400 focus:outline-none focus:ring-2 focus:ring-blue-500 transition">
-                  <option value="">Sort by Price</option>
-                  <option value="lowToHigh">Low to High</option>
-                  <option value="highToLow">High to Low</option>
-                </select>
-              </div>
+              <select className="w-full sm:w-[200px] px-4 py-2 border border-gray-300 rounded-lg bg-white text-gray-700">
+                <option value="">Sort by Price</option>
+                <option value="lowToHigh">Low to High</option>
+                <option value="highToLow">High to Low</option>
+              </select>
             </div>
 
             {/* Worker List */}
-            <div className="mt-4 flex-1 overflow-y-auto">
-              {Employees && Employees.workers && Employees.workers.length > 0 ? (
-                Employees.workers.map((emp, idx) => (
+            <div className="mt-4">
+              {loading ? (
+                <p className="text-blue-500">Loading workers...</p>
+              ) : error ? (
+                <p className="text-red-500">{error}</p>
+              ) : workers.length > 0 ? (
+                workers.map((emp, idx) => (
                   <div
                     key={idx}
                     className="border border-gray-200 p-4 rounded-lg shadow-sm bg-gray-50 hover:bg-white transition"
                   >
-                    <div className="font-semibold text-lg text-gray-800">{emp.username}</div>
-                    <div className="text-gray-600 text-sm">Location: {emp.location}</div> 
+                    <div className="font-semibold text-lg text-gray-800">
+                      {emp.username}
+                    </div>
+                    <div className="text-gray-600 text-sm">
+                      Location: {emp.location}
+                    </div>
                   </div>
                 ))
-              ) : ( 
-                <div className="text-gray-500">No workers found.</div>
+              ) : (
+                <p className="text-gray-500">No workers found.</p>
               )}
             </div>
           </div>
@@ -251,3 +547,4 @@ const WorkerSelectorPage = () => {
 };
 
 export default WorkerSelectorPage;
+ 
