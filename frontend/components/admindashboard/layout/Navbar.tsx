@@ -104,7 +104,7 @@ export function Navbar() {
           
           <div className="flex items-center gap-2">
             <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-medium">
-              JD
+
             </div>
           </div>
         </div>

@@ -6,8 +6,8 @@ import { ThemeProvider } from "@/components/admindashboard/theme-provider";
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'HomeServe Admin Dashboard',
-  description: 'Admin dashboard for home service maintenance providers',
+  title: 'Servigo',
+  description: 'Home service maintenance providers',
 };
 
 export default function RootLayout({

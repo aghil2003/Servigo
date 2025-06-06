@@ -39,9 +39,15 @@ export function ServiceBookingGuideContainer() {
           <div className="bg-[#F0F0F0] w-[60px] h-[60px] rounded-full flex justify-center items-center mb-3">
             <Coffee />
           </div>
-          <p className="text-center text-lg font-bold">Enjoy peace of mind while we do the rest</p>
+          <p className="text-center text-lg font-bold">Enjoy peace of mind while we do the res t</p>
           <p className="text-center text-sm mt-2 text-gray-700">Our verified experts will take care of everything.</p>
         </div>
+      </div>
+
+      <div className="mt-12 flex justify-center">
+       <button className="bg-black text-white px-6 py-3 rounded-full font-semibold text-lg hover:bg-gray-800 transition duration-300 shadow-md hover:shadow-lg">
+         <a href="/services" className="hover:text-gray-400">Book Your Services Now</a>
+       </button>
       </div>
     </div>
   );

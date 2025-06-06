@@ -52,7 +52,7 @@ export function Navbar() {
         </div>
 
         <div className="flex items-center gap-2">
-          <DropdownMenu>
+          {/* <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="relative">
                 <Bell className="h-5 w-5" />
@@ -91,9 +91,9 @@ export function Navbar() {
                 </div>
               </div>
             </DropdownMenuContent>
-          </DropdownMenu>
+          </DropdownMenu> */}
 
-          <Button
+          {/* <Button
             variant="ghost"
             size="icon"
             aria-label="Toggle Theme"
@@ -101,11 +101,11 @@ export function Navbar() {
           >
             <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
             <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          </Button>
+          </Button> */}
           
           <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-medium">
-              JD
+            <div className="h-8 w-8 rounded-full bg-gray-50 flex items-center justify-center">
+              <UserCircle className="h-6 w-6 text-primary" />
             </div>
           </div>
         </div>

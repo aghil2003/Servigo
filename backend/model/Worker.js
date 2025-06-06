@@ -6,7 +6,10 @@ const WorkerSchema = new mongoose.Schema({
   password:{type: String, required: false },
   photo: {type:String} ,
   WorkeField: {type: String, required: false },
-  location:{type: String, required: false }
+  location: {
+  district: { type: String, required: true },
+  place: { type: String, required: true }
+ }
 });
 
 export default mongoose.model('Worker', WorkerSchema);
