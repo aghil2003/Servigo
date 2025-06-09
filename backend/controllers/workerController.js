@@ -27,7 +27,7 @@ export const serviceWorker = async (req, res) => {
   try {
     const { service } = req.params;
     const { lat, lon, page  } = req.query;
-    const  limit = 4
+    const  limit = 4;
 
     if (!lat || !lon) {
       return res.status(400).json({ error: 'Latitude and longitude are required' });

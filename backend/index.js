@@ -7,7 +7,9 @@ import RoutesData from "./routes/dataRoutes.js"
 import RoutesOrder from "./routes/orderRoutes.js";
 import RoutesReview from "./routes/reviewRoutes.js";
 import RoutesWorker from "./routes/workerRoutes.js";
-import connectToDatabas from "./configue/db.js"
+import RoutesAddress from "./routes/addressRoutes.js";
+import RoutesBooking from "./routes/booking.js";
+import connectToDatabas from "./configue/db.js";
 import passport from 'passport';
 import connectToPassport from "./configue/passport.js";
 import session from "express-session";
@@ -39,6 +41,10 @@ app.use("/",RoutesData)
 app.use("/",RoutesOrder)
 app.use("/",RoutesReview)
 app.use("/",RoutesWorker)
+app.use("/",RoutesAddress)
+app.use("/",RoutesBooking)
+
+
 
 
 app.listen(port,()=>{

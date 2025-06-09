@@ -721,7 +721,7 @@
 
 "use client";
 import React, { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams,useRouter } from "next/navigation";
 import {
   Briefcase,
   MapPin,
@@ -748,6 +748,7 @@ import {
 import "leaflet/dist/leaflet.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import AddressModal from "../modal/address";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -765,7 +766,9 @@ type Worker = {
 
 const WorkerSelectorPage = () => {
   const searchParams = useSearchParams();
+  const Router=useRouter();
   const service = searchParams.get("service") || "";
+  const userId="682c791005cb512735c615e5";
 
   const [userPosition, setUserPosition] = useState<[number, number]>([
     8.5241, 76.9366,
@@ -779,6 +782,7 @@ const WorkerSelectorPage = () => {
   const [error, setError] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("");
+  const [addressModalOpen, setaddressModalOpen] = useState(false);
 
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -863,44 +867,12 @@ const WorkerSelectorPage = () => {
     if (!selectedLocation) return alert("Select a location first.");
     if (!selectedWorker) return alert("Select a worker before booking.");
     if (!selectedDate) return alert("Please select a booking date.");
-
-    try {
-      await Axiosinstance.post("/book", {
-        service,
-        date: selectedDate.toISOString(),
-        location: {
-          lat: selectedLocation[0],
-          lng: selectedLocation[1],
-        },
-        professional: selectedWorker.username,
-      });
-      alert("Booking successful!");
-    } catch (error) {
-      console.error(error);
-      alert("Booking failed.");
-    }
+ 
+     setaddressModalOpen(true)
+    
   };
 
-  //   const handleSearch=async()=>{
-  //   console.log(searchTerm,"searchTerm");
-  //   try {
-  //     const res = await Axiosinstance.get(`/worker/${service}/${searchTerm}`, {
-  //       params: {
-  //         lat: selectedLocation[0],
-  //         lon: selectedLocation[1],
-  //       },
-  //     });
-  //     setWorkers(res.data.workers || []);
-  //   } catch (err) {
-  //     console.error("Failed to fetch workers:", err);
-  //     setError("Failed to fetch workers.");
-  //   } finally {
-  //     setLoading(false);
-    
-  //   }
-    
-    
-  // }
+  
   const handleSearch = async (pageNum = 1) => {
   if (!selectedLocation) return;
   setLoading(true);
@@ -925,6 +897,9 @@ const WorkerSelectorPage = () => {
     setLoading(false);
   }
 };
+
+console.log("selectedWorker: " + selectedWorker)
+
 
 
   return (
@@ -1019,13 +994,11 @@ const WorkerSelectorPage = () => {
               <div className="w-full sm:w-[140px]">
                 <Select value={sortOption} onValueChange={(value) => setSortOption(value)}>
                   <SelectTrigger className="text-sm w-full">
-                    <SelectValue placeholder="Sort" />
+                    <SelectValue placeholder="Rating" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="rating">Rating</SelectItem>
-                    <SelectItem value="price_low">Price Low</SelectItem>
-                    <SelectItem value="price_high">Price High</SelectItem>
-                    <SelectItem value="distance">Nearest</SelectItem>
+                    <SelectItem value="rating_low">Low To High</SelectItem>
+                    <SelectItem value="rating_high">High To Low</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -1110,12 +1083,57 @@ const WorkerSelectorPage = () => {
             )}
            
 
-            <Button onClick={handleBooking} className="mt-4 w-full bg-indigo-600 text-white">
+           <Button
+              onClick={handleBooking}
+              className="mt-4 w-full bg-indigo-600 text-white"
+              disabled={!selectedWorker || !selectedLocation || !selectedDate}
+            >
               Book Now
             </Button>
           </Card>
         </div>
       </motion.div>
+      <AddressModal
+  isOpen={addressModalOpen}
+  onClose={() => setaddressModalOpen(false)}
+  loading={loading}
+  onSave={async({ address, phone }) => {
+    try {
+      const data={
+      address:address,
+      phone:phone
+    }
+    const res = await Axiosinstance.post(`/add-address/${userId}`, data);
+
+    if (res.status !== 200 && res.status !== 201) {
+      throw new Error(res.data?.message || 'Failed to save');
+    }
+ 
+    const Bookingdetails={
+      selectedservice:service,
+      SelectedWorker:selectedWorker,
+      SelectedDate:selectedDate,
+      UserAddress: address,
+      Phone:phone
+    }
+    const resp=await Axiosinstance.post(`/booking/${userId}`, Bookingdetails);
+
+    // alert('Saved!');
+    console.log("Booking details:");
+    console.log("selected services:",service)
+    console.log("Selected Worker:", selectedWorker);
+    console.log("Selected Location:", selectedLocation);
+    console.log("Selected Date:", selectedDate);
+    console.log("User Address:", address);
+    console.log("Phone:", phone);
+      Router.push('/booking')
+    } catch (error) {
+      console.log(error)
+    }
+    // You can now make a booking API request here
+  }}
+/>
+
     </div>
   );
 };
