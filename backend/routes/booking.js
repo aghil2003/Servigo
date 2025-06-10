@@ -2,6 +2,11 @@ import express from "express";
 const bookingRoute=express.Router();
 import bookingModel from '../model/booking.js'; 
 import WorkerModel from "../model/Worker.js";
+import {createOrder,verifyPayment} from "../controllers/RazorPay.js"
+
+
+bookingRoute.post('/payement',createOrder)
+bookingRoute.post('/payement/verification',verifyPayment)
 
 bookingRoute.post('/booking/:userId', async (req, res) => {
   try {
