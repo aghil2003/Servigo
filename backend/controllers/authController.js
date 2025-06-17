@@ -34,10 +34,10 @@ const sendOtp = async (email, otp) => {
 
 export const register=async (req, res) => {
   try {
-    const { username, email, password } = req.body;
+    const { name, email, password } = req.body;
     console.log("Request body:", req.body);
 
-    if (!username || !email || !password) {
+    if (!name || !email || !password) {
       return res.status(400).json({ message: "All fields are required" });
     }
     
@@ -47,7 +47,7 @@ export const register=async (req, res) => {
     }
     
    const hashedPassword = await bcrypt.hash(password, 10);
-   const newUser = new User ({ username , email, password:hashedPassword });
+   const newUser = new User ({ username:name , email, password:hashedPassword });
     await newUser.save();
 
     const otp = crypto.randomInt(100000, 999999).toString();
@@ -83,6 +83,7 @@ export const register=async (req, res) => {
 export const verify = async (req, res) => {
   try {
     const { otp,email } = req.body;
+    console.log(req.body)
    
     if (!email || !otp) {
       return res.status(400).json({ message: "Email and OTP are required" });

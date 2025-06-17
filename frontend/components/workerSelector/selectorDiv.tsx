@@ -431,7 +431,7 @@ const loaded = await loadRazorpayScript();
     if (!loaded) {
       alert("Razorpay SDK failed to load. Are you online?");
       return;
-    }
+    } 
 
           let response = await  Axiosinstance.post("/payement", {
             amount: totalAmount,
@@ -543,7 +543,7 @@ const loaded = await loadRazorpayScript();
                 </Button>
               </div>
 
-              <div className="w-full sm:w-[140px]">
+              < div className="w-full sm:w-[140px]">
                 <Select value={sortOption} onValueChange={(value) => setSortOption(value)}>
                   <SelectTrigger className="text-sm w-full">
                     <SelectValue placeholder="Rating" />
