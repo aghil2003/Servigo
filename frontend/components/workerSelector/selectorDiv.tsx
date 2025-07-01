@@ -1,183 +1,4 @@
-// "use client";
-// import React, { useState, useEffect } from "react";
-// import { useSearchParams,useRouter } from "next/navigation";
-// import {
-//   Briefcase,
-//   MapPin,
-//   Star,
-//   Calendar,
-//   Search,
-//   Navigation,
-// } from "lucide-react";
-// import Axiosinstance from "@/axios/axiosInstance";
-// import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-// import L from "leaflet";
-// import { motion } from "framer-motion";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { Card } from "@/components/ui/card";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
 
-// import "leaflet/dist/leaflet.css";
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
-// import AddressModal from "../modal/address";
-
-// delete L.Icon.Default.prototype._getIconUrl;
-// L.Icon.Default.mergeOptions({
-//   iconRetinaUrl:
-//     "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-//   iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-//   shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-// });
-
-// type Worker = {
-//   username: string;
-//   place?: string;
-//   city?: string;
-// };
-
-// const WorkerSelectorPage = () => {
-//   const searchParams = useSearchParams();
-//   const Router=useRouter();
-//   const service = searchParams.get("service") || "";
-//   const userId="682c791005cb512735c615e5";
-
-//   const [userPosition, setUserPosition] = useState<[number, number]>([
-//     8.5241, 76.9366,
-//   ]);
-//   const [mapCenter, setMapCenter] = useState<[number, number]>(userPosition);
-//   const [locationSearch, setLocationSearch] = useState("");
-//   const [selectedLocation, setSelectedLocation] = useState<[number, number] | null>(null);
-//   const [selectedWorker, setSelectedWorker] = useState<Worker | null>(null);
-//   const [workers, setWorkers] = useState<Worker[]>([]);
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState("");
-//   const [searchTerm, setSearchTerm] = useState("");
-//   const [sortOption, setSortOption] = useState("");
-//   const [addressModalOpen, setaddressModalOpen] = useState(false);
-
-//   const [page, setPage] = useState(1);
-//   const [totalPages, setTotalPages] = useState(1);
-
-//   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
-
-//   useEffect(() => {
-//     if (navigator.geolocation) {
-//       navigator.geolocation.getCurrentPosition(
-//         (pos) => {
-//           const coords: [number, number] = [
-//             pos.coords.latitude,
-//             pos.coords.longitude,
-//           ];
-//           setUserPosition(coords);
-//           setMapCenter(coords);
-//           setSelectedLocation(coords);
-//         },
-//         (error) => {
-//           console.warn("Geolocation error:", error);
-//         }
-//       );
-//     }
-//   }, []);
-
-//   useEffect(() => {
-//     fetchWorkers(1);
-//   }, [service, selectedLocation]);
-
-//   const fetchWorkers = async (pageNum = 1) => {
-//     if (!selectedLocation) return;
-//     setLoading(true);
-//     try {
-//       const res = await Axiosinstance.get(`/worker/${service}`, {
-//         params: {
-//           lat: selectedLocation[0],
-//           lon: selectedLocation[1],
-//           page: pageNum,
-//         },
-//       });
-//       setWorkers(res.data.workers || []);
-//       setPage(res.data.page || 1);
-//       setTotalPages(res.data.totalPages || 1);
-//     } catch (err) {
-//       setError("Failed to fetch workers.");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   const handleLocationSearch = async () => {
-//     if (!locationSearch) return;
-//     try {
-//       const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationSearch)}`;
-//       const response = await fetch(url, {
-//         headers: {
-//           "User-Agent": "servigo-app-example (your-email@example.com)",
-//         },
-//       });
-//       const data = await response.json();
-//       if (data?.length > 0) {
-//         const coords: [number, number] = [
-//           parseFloat(data[0].lat),
-//           parseFloat(data[0].lon),
-//         ];
-//         setMapCenter(coords);
-//         setSelectedLocation(coords);
-//       } else {
-//         alert("Location not found");
-//       }
-//     } catch (err) {
-//       alert("Error searching location");
-//     }
-//   };
-
-//   const handleUseCurrentLocation = () => {
-//     setMapCenter(userPosition);
-//     setSelectedLocation(userPosition);
-//   };
-
-//   const handleBooking = async () => {
-//     if (!selectedLocation) return alert("Select a location first.");
-//     if (!selectedWorker) return alert("Select a worker before booking.");
-//     if (!selectedDate) return alert("Please select a booking date.");
- 
-//      setaddressModalOpen(true)
-    
-//   };
-
-  
-//   const handleSearch = async (pageNum = 1) => {
-//   if (!selectedLocation) return;
-//   setLoading(true);
-//   try {
-//     const res = await Axiosinstance.get(
-//       `/worker/${service}/${searchTerm || ""}`,
-//       {
-//         params: {
-//           lat: selectedLocation[0],
-//           lon: selectedLocation[1],
-//           page: pageNum,
-//         },
-//       }
-//     );
-//     setWorkers(res.data.workers || []);
-//     setPage(res.data.page || 1);
-//     setTotalPages(res.data.totalPages || 1);
-//   } catch (err) {
-//     console.error("Failed to fetch workers:", err);
-//     setError("Failed to fetch workers.");
-//   } finally {
-//     setLoading(false);
-//   }
-// };
-
-// console.log("selectedWorker: " + selectedWorker)
 
 "use client";
 import React, { useState, useEffect } from "react";
@@ -193,6 +14,7 @@ import {
 import Axiosinstance from "@/axios/axiosInstance";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import L from "leaflet";
+ import "leaflet/dist/leaflet.css";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -205,7 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import "leaflet/dist/leaflet.css";
+// import "leaflet/dist/leaflet.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import AddressModal from "../modal/address";
@@ -236,7 +58,7 @@ const WorkerSelectorPage = () => {
   const searchParams = useSearchParams();
   const Router=useRouter();
   const service = searchParams.get("service") || "";
-  const userId="682c791005cb512735c615e5";
+  const userId="6851620840217e5af31c27f6";
 
   const [userPosition, setUserPosition] = useState<[number, number]>([
     8.5241, 76.9366,
@@ -370,35 +192,32 @@ console.log("selectedWorker: " + selectedWorker)
 
  const totalAmount = 5000;
 
- const loadRazorpayScript = () => {
-  return new Promise((resolve, reject) => {
-    if (typeof window !== "undefined" && window.Razorpay) {
-      return resolve(true); // Already loaded
-    }
-
+const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
     script.onload = () => resolve(true);
-    script.onerror = () => reject(new Error("Failed to load Razorpay SDK"));
+    script.onerror = () => resolve(false);
     document.body.appendChild(script);
   });
 };
 
 
-    const checkoutPayment = async (order) => {
+const checkoutPayment = async (orders) => {
+  console.log(orders)
   const options = {
-    key: "rzp_live_mm2ik2jG8PwohE",
-    amount: order.amount,
-    currency: order.currency,
+    key: "rzp_test_qx44vDxeEWIMqV", // 🔁 Use test key in development
+    amount: orders.amount,
+    currency: orders.currency,
     name: "VINERGO",
     description: "Thank you for shopping with us!",
-    order_id: order.id,
+    order_id: orders.id, // must be valid Razorpay order_id
     handler: async function (response) {
       Swal.fire({
         title: "Booking Confirmed!",
         text: "Your order has been successfully placed.",
         icon: "success",
-        confirmButtonColor: "#3085d6",
+        confirmButtonColor: "#000000",
         confirmButtonText: "OK",
       }).then(async () => {
         const paymentDetails = {
@@ -406,9 +225,14 @@ console.log("selectedWorker: " + selectedWorker)
           razorpay_payment_id: response.razorpay_payment_id,
           razorpay_signature: response.razorpay_signature,
         };
-
-        // Optionally verify payment with backend
-        await Axiosinstance.post("/payement/verification", paymentDetails);
+        try {
+          await Axiosinstance.post("/payement/verification", paymentDetails);
+          console.log("✅ Payment verified!");
+           window.location.href = "/booking";
+        } catch (err) {
+          console.error("❌ Payment verification failed", err);
+          Swal.fire("Verification Failed", "Could not verify payment.", "error");
+        }
       });
     },
     prefill: {
@@ -421,31 +245,45 @@ console.log("selectedWorker: " + selectedWorker)
     },
   };
 
-  const object = new window.Razorpay(options);
-  object.open();
+  const razorpay = new window.Razorpay(options);
+
+  razorpay.on("payment.failed", function (response) {
+    Swal.fire({
+      title: "Payment Failed",
+      text: response.error.description || "Something went wrong.",
+      icon: "error",
+    });
+  });
+ console.log("🔍 Razorpay Options:", options);
+  razorpay.open();
 };
-    
-      const newBooking = async () => {
-        try {
-const loaded = await loadRazorpayScript();
+
+const newBooking = async () => {
+  try {
+    const loaded = await loadRazorpayScript();
     if (!loaded) {
       alert("Razorpay SDK failed to load. Are you online?");
       return;
-    } 
+    }
 
-          let response = await  Axiosinstance.post("/payement", {
-            amount: totalAmount,
-            currency: "INR",
-          });
-          if (response) {
-            console.log(response.data.order,"response.data.order")
-            await checkoutPayment(response.data.order);
-            
-          }
-        } catch (error) {
-          console.error(error);
-        }
-      };
+    const response = await Axiosinstance.post("/payement", {
+      amount: totalAmount, // in rupees
+      currency: "INR",
+    });
+
+    if (response?.data?.order) {
+      console.log(response.data.order, "✅ Order received");
+      await checkoutPayment(response.data.order);
+      
+    } else {
+      throw new Error("❌ Order creation failed");
+    }
+  } catch (error) {
+    console.error("Booking Error:", error);
+    Swal.fire("Error", "Booking failed. Please try again.", "error");
+  }
+};
+
     
       const handleSubmitForPay = ()=>{
         console.log("in the booking");

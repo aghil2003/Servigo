@@ -1,6 +1,6 @@
 import { ServiceContainer } from './ServicesContainer';
  import {Navbar} from "../navBar";
- import "leaflet/dist/leaflet.css";
+//  import "leaflet/dist/leaflet.css";
 
 export default function LoginDashboard() {
   return (
