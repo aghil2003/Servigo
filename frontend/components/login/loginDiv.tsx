@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { useRouter } from 'next/navigation';
+import { useRouter,useSearchParams } from 'next/navigation';
 import Cookies from 'js-cookie';
 import { loginUser } from "@/redux/Authslice";
 import {
@@ -24,12 +24,16 @@ export function Login() {
   const router = useRouter();
   const dispatch = useDispatch();
   const { token, role, loading, error } = useSelector((state) => state.auth);
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams.get("redirect") || "/";
+
 
   useEffect(() => {
-    if (token) {
-      role === "Admin" ? router.push("/dashbord") : router.push("/");
-    }
-  }, [token, role, router]);
+  if (token) {
+    const path = redirectPath || (role === "Admin" ? "/dashbord" : "/");
+    router.push(path);
+  }
+}, [token, role, router, redirectPath]);
 
   const validateForm = () => {
     let isValid = true;
@@ -112,7 +116,7 @@ export function Login() {
 
           <p className='text-center text-sm mt-2 text-muted-foreground'>
             Create new account?{' '}
-            <Link className="text-sky-700 hover:underline cursor-pointer" href="/register">
+            <Link className="text-sky-700 hover:underline cursor-pointer" href="/signup">
               Sign up
             </Link>
           </p>

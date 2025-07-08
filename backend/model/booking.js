@@ -7,7 +7,12 @@ const bookingSchema = new mongoose.Schema({
   SelectedDate: { type: Date, required: true },
   UserAddress: { type: String, required: true },
   Phone: { type: String, required: true },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true }
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+ status: {
+  type: String,
+  enum: ["pending", "confirmed", "completed", "cancelled"],
+  default: "pending",
+}
 }, { timestamps: true });
 
 export default mongoose.model('Booking', bookingSchema);

@@ -25,7 +25,8 @@ export const loginUser = createAsyncThunk("auth/login", async ({ email, password
     Cookies.set("token", token, { expires: 7 });
 
     const decodedToken = jwtDecode(token);
-    return { token, role: decodedToken.role, name: decodedToken.name, userId: decodedToken.userId, email: decodedToken.email };
+    console.log(decodedToken,"test for the token")
+    return { decodedToken,token, role: decodedToken.role, name: decodedToken.name, userId: decodedToken.id, email: decodedToken.email };
   } catch (error) {
     return rejectWithValue(error.response?.data?.message || "Invalid credentials");
 
@@ -39,7 +40,7 @@ export const registerUser = createAsyncThunk("auth/register", async ({ name, ema
     Cookies.set("token", token, { expires: 7 });
 
     const decodedToken = jwtDecode(token);
-    return { token, role: decodedToken.role, name: decodedToken.name, userId: decodedToken.userId, email: decodedToken.email };
+    return { token, role: decodedToken.role, name: decodedToken.name, userId: decodedToken.id, email: decodedToken.email };
   } catch (error) {
     return rejectWithValue(
       error.response?.data?.message || "Invalid credentials"
@@ -52,8 +53,9 @@ export const registerUser = createAsyncThunk("auth/register", async ({ name, ema
 const authSlice = createSlice({
   name: "auth",
   initialState: {
+    decodedToken,
     token,
-    userId: decodedToken?.userId || null, 
+    userId: decodedToken?.id || null, 
     role: decodedToken?.role || null,
     name: decodedToken?.name || null,
     email: decodedToken?.email || null,

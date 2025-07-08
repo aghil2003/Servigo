@@ -32,6 +32,10 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import AddressModal from "../modal/address";
 import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/redux/store";
+
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -58,7 +62,10 @@ const WorkerSelectorPage = () => {
   const searchParams = useSearchParams();
   const Router=useRouter();
   const service = searchParams.get("service") || "";
-  const userId="6851620840217e5af31c27f6";
+  const userId = useSelector((state: RootState) => state.auth.userId);
+  console.log(userId,"test for use id")
+  const auth = useSelector((state: RootState) => state.auth);
+console.log("Full auth state:", auth);
 
   const [userPosition, setUserPosition] = useState<[number, number]>([
     8.5241, 76.9366,
@@ -78,6 +85,15 @@ const WorkerSelectorPage = () => {
   const [totalPages, setTotalPages] = useState(1);
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  // const [orderId,setOrderId]=useState("");
+  
+
+   useEffect(() => {
+    if (!userId) {
+      // Redirect to login with intended redirect path
+     Router.push(`/login?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`);
+    }
+  }, [userId]);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -153,14 +169,32 @@ const WorkerSelectorPage = () => {
     setSelectedLocation(userPosition);
   };
 
+
   const handleBooking = async () => {
-    if (!selectedLocation) return alert("Select a location first.");
-    if (!selectedWorker) return alert("Select a worker before booking.");
-    if (!selectedDate) return alert("Please select a booking date.");
- 
-     setaddressModalOpen(true)
-    
-  };
+  if (!userId) {
+    Swal.fire({
+      title: "Login Required",
+      text: "Please login to proceed with booking.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: '<span class="px-4 py-2 bg-[#7066e0] text-white rounded ">Login</span>',
+      cancelButtonText: '<span class="px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">Cancel</span>',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        Router.push(`/login?redirect=${encodeURIComponent(window.location.pathname + window.location.search)}`);
+
+      }
+    });
+    return;
+  }
+
+  if (!selectedLocation) return alert("Select a location first.");
+  if (!selectedWorker) return alert("Select a worker before booking.");
+  if (!selectedDate) return alert("Please select a booking date.");
+
+  setaddressModalOpen(true);
+};
+
 
   
   const handleSearch = async (pageNum = 1) => {
@@ -203,8 +237,8 @@ const loadRazorpayScript = () => {
 };
 
 
-const checkoutPayment = async (orders) => {
-  console.log(orders)
+const checkoutPayment = async (orders,orderId: string) => {
+  console.log(orders,"000")
   const options = {
     key: "rzp_test_qx44vDxeEWIMqV", // 🔁 Use test key in development
     amount: orders.amount,
@@ -227,10 +261,10 @@ const checkoutPayment = async (orders) => {
         };
         try {
           await Axiosinstance.post("/payement/verification", paymentDetails);
-          console.log("✅ Payment verified!");
-           window.location.href = "/booking";
+          await Axiosinstance.put(`/order/${orderId}`, { status: "confirmed",});
+          window.location.href = "/booking";
         } catch (err) {
-          console.error("❌ Payment verification failed", err);
+          console.error("Payment verification failed", err);
           Swal.fire("Verification Failed", "Could not verify payment.", "error");
         }
       });
@@ -258,7 +292,7 @@ const checkoutPayment = async (orders) => {
   razorpay.open();
 };
 
-const newBooking = async () => {
+const newBooking = async (orderId: string) => {
   try {
     const loaded = await loadRazorpayScript();
     if (!loaded) {
@@ -273,7 +307,7 @@ const newBooking = async () => {
 
     if (response?.data?.order) {
       console.log(response.data.order, "✅ Order received");
-      await checkoutPayment(response.data.order);
+      await checkoutPayment(response.data.order,orderId);
       
     } else {
       throw new Error("❌ Order creation failed");
@@ -285,10 +319,10 @@ const newBooking = async () => {
 };
 
     
-      const handleSubmitForPay = ()=>{
+      const handleSubmitForPay = (orderId: string)=>{
         console.log("in the booking");
         
-        newBooking()
+        newBooking(orderId)
       }
 
 
@@ -507,6 +541,8 @@ const newBooking = async () => {
       Phone:phone
     }
     const resp=await Axiosinstance.post(`/booking/${userId}`, Bookingdetails);
+    console.log(resp.data.newAddress._id,"resp111")
+    // setOrderId(resp.data.newAddress._id);
 
     //     
     console.log("Booking details:");
@@ -517,7 +553,7 @@ const newBooking = async () => {
     console.log("User Address:", address);
     console.log("Phone:", phone);
       // Router.push('/booking')
-      handleSubmitForPay(); 
+      handleSubmitForPay(resp.data.newAddress._id); 
     } catch (error) {
       console.log(error)
     }

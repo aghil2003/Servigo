@@ -44,10 +44,14 @@
 "use client";
 import { useState, useEffect } from "react";
 import Axiosinstance from "@/axios/axiosInstance";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/redux/store";
 
 export default function Bookingpage() {
   const [booking, setBooking] = useState([]);
-  const userId = "6851620840217e5af31c27f6";
+  const userId = useSelector((state: RootState) => state.auth.userId);
+  console.log(userId,"test for use id")
+  // const userId = "6851620840217e5af31c27f6";
 
   useEffect(() => {
     const fetchBooking = async () => {
@@ -76,6 +80,24 @@ export default function Bookingpage() {
                 <p><span className="font-semibold text-gray-600">Date:</span> {new Date(b.date || b.SelectedDate).toLocaleString()}</p>
                 <p><span className="font-semibold text-gray-600">Address:</span> {b.address || b.UserAddress}</p>
                 <p><span className="font-semibold text-gray-600">Worker:</span> {b.workerName || b?.SelectedWorker?.username || "N/A"}</p>
+                  <div className="flex items-center justify-between">
+                  <div>
+                    <span className="font-semibold text-gray-600">Status:</span>{" "}
+                    <span
+                      className={`px-3 py-1 text-sm rounded-full font-medium ${
+                        b.status === "pending"
+                          ? "bg-yellow-100 text-yellow-800"
+                          : b.status === "confirmed"
+                          ? "bg-blue-100 text-blue-800"
+                          : b.status === "completed"
+                          ? "bg-green-100 text-green-800"
+                          : "bg-red-100 text-red-800"
+                      }`}
+                    >
+                      {b.status || "N/A"}
+                    </span>
+                  </div>
+                </div>
               </div>
             </li>
           ))}
