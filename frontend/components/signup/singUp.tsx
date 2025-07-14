@@ -586,15 +586,18 @@ export function Signup() {
 
   const [otpModalOpen, setOtpModalOpen] = useState(false);
   const [localEmail, setLocalEmail] = useState('');
+  const [justRegistered, setJustRegistered] = useState(false);
 
   const { loading, error, token } = useSelector((state: RootState) => state.auth);
 
   useEffect(() => {
-    if (token) {
-      setOtpModalOpen(true);
-      setLocalEmail(email);
-    }
-  }, [token]);
+  if (token && justRegistered) {
+    setOtpModalOpen(true);
+    setLocalEmail(email);
+    setJustRegistered(false); // reset to avoid triggering again
+  }
+}, [token, justRegistered]);
+
 
   const validateForm = () => {
     if (!username.trim()) return alert("Name is required");
@@ -610,6 +613,7 @@ export function Signup() {
 
     try {
       await dispatch(registerUser({ name: username, email, password })).unwrap();
+      setJustRegistered(true);
       // OTP modal will handle the next step
     } catch (err: any) {
       console.error("Registration error:", err);

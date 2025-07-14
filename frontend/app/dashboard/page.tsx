@@ -4,6 +4,8 @@ import { useEffect, useState, useRef } from 'react';
 import { Bannercontainer } from "@/components/userdashboard/Bannercontainer";
 import { ServiceBookingGuideContainer } from "@/components/userdashboard/ServiceBookingGuide";
 import { Footer } from '@/components/userdashboard/footer';
+import ChatModal from "@/components/modal/chat";
+import { MessageCircle } from "lucide-react";
 
 export default function DashboardPage() {
   const [isSticky, setIsSticky] = useState(false);
@@ -11,6 +13,7 @@ export default function DashboardPage() {
   const bannerRef = useRef<HTMLDivElement>(null);
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const chatRef = useRef<HTMLDivElement>(null);
+    const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
     const updateScreenSize = () => {
@@ -42,27 +45,7 @@ export default function DashboardPage() {
     }
   }, [isSticky]);
 
-  // ✅ Dynamically inject Dialogflow script + widget
-  useEffect(() => {
-  const script = document.createElement("script");
-  script.src = "https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1";
-  script.async = true;
-  document.body.appendChild(script);
 
-  const dfMessenger = document.createElement("df-messenger");
-  dfMessenger.setAttribute("intent", "WELCOME");
-  dfMessenger.setAttribute("chat-title", "ServigoBot");
-  dfMessenger.setAttribute("agent-id", "54ba02b6-dbd4-44cf-8c24-e0ffd7d4d115");
-  dfMessenger.setAttribute("language-code", "en");
-
-  chatRef.current?.appendChild(dfMessenger);
-
-  // ✅ Cleanup function
-  return () => {
-    document.body.removeChild(script); // Clean up the script tag
-    chatRef.current?.removeChild(dfMessenger); // Remove the chatbot
-  };
-}, []);
 
 
   return (
@@ -92,8 +75,17 @@ export default function DashboardPage() {
         <Footer />
       </div>
 
-      {/* Dialogflow Messenger Chat Widget Injected Here */}
-      <div ref={chatRef}></div>
+     {/* Floating Toggle Button */}
+      <div className="fixed bottom-6 right-6 z-40">
+        <button
+          onClick={() => setIsOpen(true)}
+          className="bg-blue-600 text-white p-3 rounded-full shadow-md hover:bg-blue-700 transition"
+          aria-label="Open Chat"
+        >
+          <MessageCircle className="w-5 h-5" />
+        </button>
+         <ChatModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      </div>
     </div>
   );
 }
